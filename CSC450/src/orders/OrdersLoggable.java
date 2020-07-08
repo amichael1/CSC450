@@ -1,13 +1,10 @@
 package orders;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Adam on 5/30/2016.
  */
-public interface OrdersLoggable
-{
-
-    public void ordersLog(ArrayList<Order> orders) throws Exception;
-
+public interface OrdersLoggable {
+    void ordersLog(List<Order> orders) throws Exception;
 }

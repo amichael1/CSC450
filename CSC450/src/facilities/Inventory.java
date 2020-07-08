@@ -1,52 +1,45 @@
 package facilities;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Inventory {
 	//Inventory class for inventory data
 	//Only need to store data for facilities easily
-	private ArrayList<String> item;
-	private ArrayList<Integer> quantity;
-
+	private List<String> item;
+	private List<Integer> quantity;
 	
-	public Inventory(ArrayList<String> newItem, ArrayList<Integer> newQuantity)
-	{
+	public Inventory(List<String> newItem, List<Integer> newQuantity) {
 		item = newItem;
 		quantity = newQuantity;
 	}
 
-	public Inventory(Inventory inventory)
-	{
+	public Inventory(Inventory inventory) {
 		item = inventory.getItem();
 		quantity = inventory.getQuantity();
 	}
 
-	public ArrayList<String> getItem()
+	public List<String> getItem()
 	{
 		return new ArrayList<String>(item);
 	}
 	
-	public ArrayList<Integer> getQuantity()
+	public List<Integer> getQuantity()
 	{
 		return new ArrayList<Integer>(quantity);
 	}
 
-	public ArrayList<String> getDepletedItems()
-	{
-		ArrayList<String> depletedItems = new ArrayList<String>();
+	public List<String> getDepletedItems() {
+		List<String> depletedItems = new ArrayList<String>();
 
-		if(quantity.contains(0))
-		{
-			for(int i=0; i<quantity.size();i++)
-			{
-				if(quantity.get(i).equals(0))
-				{
+		if(quantity.contains(0)) {
+			for(int i=0; i<quantity.size();i++) {
+				if(quantity.get(i).equals(0)) {
 					depletedItems.add(item.get(i));
 				}
 			}
 		}
-		else
-		{
+		else {
 			depletedItems.add("None");
 		}
 
@@ -55,10 +48,8 @@ public class Inventory {
 
 
 	//Checks to see if item exists and is in stock
-	public boolean itemInStock(String itemName)
-	{
-		if(itemName==null)
-		{
+	public boolean itemInStock(String itemName) {
+		if(itemName==null) {
 			throw new NullPointerException();
 		}
 
@@ -67,10 +58,8 @@ public class Inventory {
 
 
 	//returns amount in stock or order amount if that is less than the amount in stock
-	public int checkStock(String itemName)
-	{
-		if(!item.contains(itemName))
-		{
+	public int checkStock(String itemName) {
+		if(!item.contains(itemName)) {
 			return 0;
 		}
 
@@ -79,10 +68,8 @@ public class Inventory {
 		return quantity.get(index);
 	}
 
-	public Integer checkAmountGiven(String itemName, Integer amountNeeded)
-	{
-		if(!item.contains(itemName))
-		{
+	public Integer checkAmountGiven(String itemName, Integer amountNeeded) {
+		if(!item.contains(itemName)) {
 			return 0;
 		}
 
@@ -92,22 +79,18 @@ public class Inventory {
 
 		Integer amountGiven = 0;
 
-		if(amountInStock>amountNeeded)
-		{
+		if(amountInStock>amountNeeded) {
 			amountGiven = amountNeeded;
 		}
-		else
-		{
+		else {
 			amountGiven = amountInStock;
 		}
 
 		return amountGiven;
 	}
 
-	public void reduceInventory(Integer amountTaken, String itemName)
-	{
-		if(item.contains(itemName))
-		{
+	public void reduceInventory(Integer amountTaken, String itemName) {
+		if(item.contains(itemName)) {
 			int index = item.indexOf(itemName);
 
 			quantity.set(index, quantity.get(index) - amountTaken);

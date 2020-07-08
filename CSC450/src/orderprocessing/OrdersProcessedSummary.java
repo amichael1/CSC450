@@ -1,25 +1,24 @@
 package orderprocessing;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Adam on 6/1/2016.
  */
 public class OrdersProcessedSummary {
 
-    private ArrayList<Integer> firstDeliveryDay;
-    private ArrayList<Integer> lastDeliveryDay;
-    ArrayList<String> items;
-    ArrayList<Integer> quantity;
-    ArrayList<Integer> costPerItem;
-    ArrayList<Integer> sourcesUsed;
+    private List<Integer> firstDeliveryDay;
+    private List<Integer> lastDeliveryDay;
+    private List<String> items;
+    private List<Integer> quantity;
+    private List<Integer> costPerItem;
+    private List<Integer> sourcesUsed;
 
 
-    public OrdersProcessedSummary(ArrayList<Integer> newFirstDeliveryDay, ArrayList<Integer> newLastDeliveryDay,
-                                  ArrayList<String> newItems, ArrayList<Integer> newQuantity,
-                                  ArrayList<Integer> newCostPerItem, ArrayList<Integer> newSourcesUsed)
-    {
+    public OrdersProcessedSummary(List<Integer> newFirstDeliveryDay, List<Integer> newLastDeliveryDay,
+                                  List<String> newItems, List<Integer> newQuantity,
+                                  List<Integer> newCostPerItem, List<Integer> newSourcesUsed) {
         firstDeliveryDay = newFirstDeliveryDay;
         lastDeliveryDay = newLastDeliveryDay;
         items = newItems;
@@ -30,33 +29,27 @@ public class OrdersProcessedSummary {
     }
 
 
-    public ArrayList<Integer> getFirstDeliveryDay()
-    {
+    public List<Integer> getFirstDeliveryDay() {
         return new ArrayList<Integer>(firstDeliveryDay);
     }
 
-    public ArrayList<Integer> getLastDeliveryDay()
-    {
+    public List<Integer> getLastDeliveryDay() {
         return new ArrayList<Integer>(lastDeliveryDay);
     }
 
-    public ArrayList<String> getItems()
-    {
+    public List<String> getItems() {
         return new ArrayList<String>(items);
     }
 
-    public ArrayList<Integer> getQuantity()
-    {
+    public List<Integer> getQuantity() {
         return new ArrayList<Integer>(quantity);
     }
 
-    public ArrayList<Integer> getCostPerItem()
-    {
+    public List<Integer> getCostPerItem() {
         return new ArrayList<Integer>(costPerItem);
     }
 
-    public ArrayList<Integer> getSourcesUsed()
-    {
+    public List<Integer> getSourcesUsed() {
         return  new ArrayList<Integer>(sourcesUsed);
     }
 

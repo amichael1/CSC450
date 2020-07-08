@@ -2,26 +2,21 @@ package orders;
 
 import exceptions.DoesNotExistException;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Adam on 5/30/2016.
  */
 
 public class OrderService {
-
-    private ArrayList<Order> orders;
+    private List<Order> orders;
 
     private volatile static OrderService orderManager;
     //Item manager singleton design
     //Facade for Items
-    public static OrderService getInstance() throws Exception
-    {
-        synchronized(OrderService.class)
-        {
-            if (orderManager == null)
-            {
+    public static OrderService getInstance() throws Exception {
+        synchronized(OrderService.class) {
+            if (orderManager == null) {
                 orderManager = new OrderService();
             }
         }
@@ -30,72 +25,58 @@ public class OrderService {
     }
     //Loads items into an ArrayList the manager manages
     private OrderService()
-            throws Exception
-    {
+            throws Exception {
         OrderLoader orderLoader = OrderLoaderFactory.createNewOrders();
         orders = orderLoader.getOrders();
     }
 
-    public ArrayList<Order> sendOrdersToProcess()
-    {
+    public List<Order> sendOrdersToProcess() {
 
         return orders;
 
     }
 
-    public String getOrderId(Order order)
-    {
+    public String getOrderId(Order order) {
         return order.getOrderID();
     }
 
-    public ArrayList<String> getItemsOnOrder(Order order)
-    {
+    public List<String> getItemsOnOrder(Order order) {
         return order.getItemsOnOrder();
     }
 
-    public String getDestination(Order order)
-    {
-        if(order==null)
-        {
+    public String getDestination(Order order) {
+        if(order==null) {
             throw new NullPointerException();
         }
         return order.getDestination();
     }
 
-    public Integer getOrderDay(Order order)
-    {
-        if(order==null)
-        {
+    public Integer getOrderDay(Order order) {
+        if(order==null) {
             throw new NullPointerException();
         }
 
         return order.getOrderTime();
     }
 
-    public Integer getQuantityOfItemOnOrder(Order order, String itemName)
-    {
-        if(order==null||itemName==null)
-        {
+    public Integer getQuantityOfItemOnOrder(Order order, String itemName) {
+        if(order==null||itemName==null) {
             throw new NullPointerException();
         }
 
         return order.getOriginalQuantityForItem(itemName);
     }
 
-    public ArrayList<Integer> getOriginalQuantity(Order order)
-    {
+    public List<Integer> getOriginalQuantity(Order order) {
         return order.getOriginalQuantityOfItems();
     }
 
     public Order getOrder(String orderId)
-            throws Exception
-    {
-        if(orderId==null)
-        {
+            throws Exception {
+        if(orderId==null) {
             throw new NullPointerException();
         }
-        if(!orders.contains(orderId))
-        {
+        if(!orders.contains(orderId)) {
             throw new DoesNotExistException();
         }
 
@@ -103,24 +84,20 @@ public class OrderService {
         return orders.get(index);
     }
 
-    public void logOrders() throws Exception
-    {
+    public void logOrders() throws Exception {
         OrdersLoggable logger = OrdersLogFactory.createNewOrdersLog();
         logger.ordersLog(orders);
     }
 
     public void updateQuantity (Integer numberOfItems, Order order, String itemName)
-            throws Exception
-    {
+            throws Exception {
 
         order.updateQuantity(numberOfItems,itemName);
 
     }
 
-    public boolean itemNotSatisfied(Order order, String itemName)
-    {
-        if(order==null||itemName==null)
-        {
+    public boolean itemNotSatisfied(Order order, String itemName) {
+        if(order==null||itemName==null) {
             throw new NullPointerException();
         }
 

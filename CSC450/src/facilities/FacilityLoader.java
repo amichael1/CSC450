@@ -1,10 +1,7 @@
 package facilities;
 
-import java.util.ArrayList;
+import java.util.List;
 //Could be facilityLoadable, may rename for next phase
-public interface FacilityLoader 
-{
-	
-	public ArrayList<Facility> getFacilities() throws Exception;
-
+public interface FacilityLoader {
+	List<Facility> getFacilities() throws Exception;
 }

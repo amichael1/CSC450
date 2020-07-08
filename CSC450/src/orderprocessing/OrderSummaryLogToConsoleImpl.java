@@ -2,27 +2,23 @@ package orderprocessing;
 
 import orders.Order;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Adam on 6/2/2016.
  */
-public class OrderSummaryLogToConsoleImpl implements OrderSummaryLoggable
-{
+public class OrderSummaryLogToConsoleImpl implements OrderSummaryLoggable {
     private static final int LENGTH_OF_STRING_IN_TAB = 7;
 
-    public void orderSummary(ArrayList<OrdersProcessedSummary> summaries, ArrayList<Order> orders)
-            throws Exception
-    {
-        if(summaries==null||orders==null)
-        {
+    public void orderSummary(List<OrdersProcessedSummary> summaries, List<Order> orders)
+            throws Exception {
+        if(summaries==null||orders==null) {
             throw new NullPointerException();
         }
 
         int orderNumber = 1;
 
-        for(int i = 0; i<orders.size();i++)
-        {
+        for(int i = 0; i<orders.size();i++) {
             //will be in the same order as processed
             Order order = orders.get(i);
             OrdersProcessedSummary summary = summaries.get(i);
@@ -34,18 +30,17 @@ public class OrderSummaryLogToConsoleImpl implements OrderSummaryLoggable
             System.out.println("\tOrder Destination:\t" + order.getDestination());
             System.out.println("\tList of Order Items:");
 
-            ArrayList<String> items = order.getItemsOnOrder();
-            ArrayList<Integer> quantityOfItems = order.getOriginalQuantityOfItems();
+            List<String> items = order.getItemsOnOrder();
+            List<Integer> quantityOfItems = order.getOriginalQuantityOfItems();
 
             int printOrder=1;
-            for (int j = 0; j < items.size(); j++)
-            {
+            for (int j = 0; j < items.size(); j++) {
                 System.out.println("\t\t" + printOrder + ") Item ID:\t" + items.get(j) + ",\tQuantity:\t" + quantityOfItems.get(j));
                 printOrder++;
             }
 
             orderNumber++;
-            ArrayList<String> itemsOnBackOrder = order.itemsOnBackOrder();
+            List<String> itemsOnBackOrder = order.itemsOnBackOrder();
             System.out.println();
 
             System.out.print("Items on back order:\t");
@@ -67,12 +62,12 @@ public class OrderSummaryLogToConsoleImpl implements OrderSummaryLoggable
             System.out.println("\tLast Delivery Day:\t" + lastDeliveryDay);
             System.out.println("\tOrder Items:");
 
-            ArrayList<String> itemsProcessed = summary.getItems();
-            ArrayList<Integer> quantity = summary.getQuantity();
-            ArrayList<Integer> cost = summary.getCostPerItem();
-            ArrayList<Integer> sources = summary.getSourcesUsed();
-            ArrayList<Integer> firstDay = summary.getFirstDeliveryDay();
-            ArrayList<Integer> lastDay = summary.getLastDeliveryDay();
+            List<String> itemsProcessed = summary.getItems();
+            List<Integer> quantity = summary.getQuantity();
+            List<Integer> cost = summary.getCostPerItem();
+            List<Integer> sources = summary.getSourcesUsed();
+            List<Integer> firstDay = summary.getFirstDeliveryDay();
+            List<Integer> lastDay = summary.getLastDeliveryDay();
 
             System.out.println("Item ID\t\tQuantity\tCost\t# Sources Used\tFirst Day\tLast Day");
             int index = 0;

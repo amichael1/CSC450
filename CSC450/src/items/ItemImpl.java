@@ -1,15 +1,12 @@
 package items;
 
 public class ItemImpl implements Item {
-	
 	private String name;
 	private int price;
 	
 	public ItemImpl(String newName, int newPrice)
-			throws NullPointerException
-	{
-		if(newName == null)
-		{
+			throws NullPointerException {
+		if(newName == null) {
 			throw new NullPointerException();
 		}
 		
@@ -17,14 +14,12 @@ public class ItemImpl implements Item {
 		price = newPrice;
 	}
 	
-	public String getName()
-	{
+	public String getName() {
 		String returnedName = new String(name);
 		return returnedName;
 	}
 	
-	public int getPrice()
-	{
+	public int getPrice() {
 		int returnedPrice = price;
 		return returnedPrice;
 	}

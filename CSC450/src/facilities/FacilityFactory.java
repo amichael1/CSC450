@@ -1,20 +1,15 @@
 package facilities;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class FacilityFactory {
 	
-	private FacilityFactory()
-	{
-		
-	}
+	private FacilityFactory() {}
 	//Creates only the FacilityImpl class at the moment
 	public static Facility createNewFacility(String name, int ratePerDay, int itemsPerDay,
-			ArrayList<Neighbor> neighbors, Schedule schedule, Inventory inventory)
-		throws Exception
-	{
-		if(name == null||neighbors == null ||schedule == null ||inventory == null)
-		{
+											 List<Neighbor> neighbors, Schedule schedule, Inventory inventory)
+		throws Exception {
+		if(name == null||neighbors == null ||schedule == null ||inventory == null) {
 			throw new NullPointerException();
 		}
 		

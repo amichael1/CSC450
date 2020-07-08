@@ -3,6 +3,7 @@ package orders;
 import java.util.ArrayList;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -21,10 +22,8 @@ import org.xml.sax.SAXException;
  */
 
 public class OrderXmlLoaderImpl implements OrderLoader {
-
-    public ArrayList<Order> getOrders() throws Exception
-    {
-        ArrayList<Order> orderCollection = new ArrayList<Order>();
+    public List<Order> getOrders() throws Exception {
+        List<Order> orderCollection = new ArrayList<Order>();
 
         try {
             String fileName = "Orders.xml";
@@ -33,8 +32,7 @@ public class OrderXmlLoaderImpl implements OrderLoader {
             DocumentBuilder db = dbf.newDocumentBuilder();
 
             File xml = new File(fileName);
-            if (!xml.exists())
-            {
+            if (!xml.exists()) {
                 System.err.println("**** XML File '" + fileName + "' cannot be found");
                 System.exit(-1);
             }
@@ -44,16 +42,13 @@ public class OrderXmlLoaderImpl implements OrderLoader {
 
             NodeList orderEntries = doc.getDocumentElement().getChildNodes();
             //Get each Item Node
-            for (int i = 0; i < orderEntries.getLength(); i++)
-            {
-                if (orderEntries.item(i).getNodeType() == Node.TEXT_NODE)
-                {
+            for (int i = 0; i < orderEntries.getLength(); i++) {
+                if (orderEntries.item(i).getNodeType() == Node.TEXT_NODE) {
                     continue;
                 }
 
                 String entryName = orderEntries.item(i).getNodeName();
-                if (!entryName.equals("Order"))
-                {
+                if (!entryName.equals("Order")) {
                     System.err.println("Unexpected node found: " + entryName);
                     return orderCollection;
                 }
@@ -68,9 +63,9 @@ public class OrderXmlLoaderImpl implements OrderLoader {
 
                 NodeList itemList = elem.getElementsByTagName("Item");
 
-                ArrayList<String> items = new ArrayList<String>();
-                ArrayList<Integer> quantity = new ArrayList<Integer>();
-                ArrayList<Integer> quantityOriginal = new ArrayList<Integer>();
+                List<String> items = new ArrayList<String>();
+                List<Integer> quantity = new ArrayList<Integer>();
+                List<Integer> quantityOriginal = new ArrayList<Integer>();
 
                 for (int l = 0; l < itemList.getLength(); l++) {
 
@@ -95,22 +90,16 @@ public class OrderXmlLoaderImpl implements OrderLoader {
                     quantityOriginal.add(quantityForItemOriginal);
                 }
 
-                if(orderID == null || destination == null || items == null || quantity == null||quantityOriginal==null)
-                {
+                if(orderID == null || destination == null || items == null || quantity == null||quantityOriginal==null) {
                     throw new NullClassDataValueException();
                 }
 
                 orderCollection.add(OrderFactory.createNewOrder(orderID, orderTime, destination, items, quantity,quantityOriginal));
-
             }
-
         }
-        catch (ParserConfigurationException | SAXException | IOException | DOMException e)
-        {
+        catch (ParserConfigurationException | SAXException | IOException | DOMException e) {
             e.printStackTrace();
         }
-
         return orderCollection;
     }
-
 }

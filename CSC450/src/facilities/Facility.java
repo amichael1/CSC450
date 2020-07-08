@@ -1,23 +1,21 @@
 package facilities;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public interface Facility {
-	
 	//Facility Interface
-	public String getName();
-	public int getRatePerDay();
-	public int getItemsPerDay();
-	public ArrayList<Neighbor> getNeighbors();
-	public Schedule getSchedule();
-	public Inventory getInventory();
-	public ArrayList<String> getDepletedItems();
-	public boolean itemInStock(String itemName);
-	public int expectedShipDate(Integer quantity, Integer startDay);
-	public void bookDays(Integer quantity, Integer startDay);
-	public int daysToProcess(Integer quantity, Integer startDay);
-	public void reduceInventory(Integer quantity, String itemName);
-	public Integer checkStock(String itemName);
-	public Integer checkAmountGiven(String itemName, Integer amountNeeded);
-
+	String getName();
+	int getRatePerDay();
+	int getItemsPerDay();
+	List<Neighbor> getNeighbors();
+	Schedule getSchedule();
+	Inventory getInventory();
+	List<String> getDepletedItems();
+	boolean itemInStock(String itemName);
+	int expectedShipDate(Integer quantity, Integer startDay);
+	void bookDays(Integer quantity, Integer startDay);
+	int daysToProcess(Integer quantity, Integer startDay);
+	void reduceInventory(Integer quantity, String itemName);
+	Integer checkStock(String itemName);
+	Integer checkAmountGiven(String itemName, Integer amountNeeded);
 }

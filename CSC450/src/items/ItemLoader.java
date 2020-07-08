@@ -1,9 +1,8 @@
 package items;
 
-import java.util.ArrayList;
+import java.util.List;
+
 //Loader interface in case new ways to load are needed
 public interface ItemLoader {
-	
-	public ArrayList<Item> getItems() throws Exception;
-
+	List<Item> getItems() throws Exception;
 }

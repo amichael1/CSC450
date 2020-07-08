@@ -5,19 +5,18 @@ import facilities.Facility;
 import facilities.FacilityService;
 import facilities.Neighbor;
 import items.ItemService;
-import network.Network;
 import network.NetworkService;
 import orders.Order;
 import orders.OrderService;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 
 public class OrderProcessingService {
 
-	private ArrayList<OrdersProcessedSummary> orderInformation;
+	private List<OrdersProcessedSummary> orderInformation;
 
 
 	private static final int TRAVEL_COST_PER_DAY = 300;
@@ -25,12 +24,9 @@ public class OrderProcessingService {
 	private volatile static OrderProcessingService orderProcessingManager;
 	//Service that communicates with all the other services
 	//Manages entire application and is how Main can call methods
-	public static OrderProcessingService getInstance() throws Exception
-	{
-		synchronized(OrderProcessingService.class)
-		{
-			if (orderProcessingManager == null)
-			{
+	public static OrderProcessingService getInstance() throws Exception {
+		synchronized(OrderProcessingService.class) {
+			if (orderProcessingManager == null) {
 				orderProcessingManager = new OrderProcessingService();
 			}
 		}
@@ -38,43 +34,36 @@ public class OrderProcessingService {
 		return orderProcessingManager;
 	}
 
-	private OrderProcessingService()
-	{
+	private OrderProcessingService() {
 		orderInformation=new ArrayList<OrdersProcessedSummary>();
 		//Could instantiate all services here
 	}
 
 
 	//Load and Log methods
-	public void loadFacilities() throws Exception
-	{
+	public void loadFacilities() throws Exception {
 		FacilityService.getInstance();
 	}
 
 
 	public void loadItems() 
-			throws Exception
-	{
+			throws Exception {
 		ItemService.getInstance();
 	}
 
 	public void loadOrders()
-			throws Exception
-	{
+			throws Exception {
 		OrderService.getInstance();
 	}
 
-	public ArrayList<Order> retrieveOrders()
-			throws Exception
-	{
+	public List<Order> retrieveOrders()
+			throws Exception {
 		return OrderService.getInstance().sendOrdersToProcess();
 	}
 
-	public ArrayList<String> getItemsOnOrder(Order order)
-			throws Exception
-	{
-		if(order==null)
-		{
+	public List<String> getItemsOnOrder(Order order)
+			throws Exception {
+		if(order==null) {
 			throw new NullPointerException();
 		}
 
@@ -82,10 +71,8 @@ public class OrderProcessingService {
 	}
 
 	public String getOrderId(Order order)
-			throws Exception
-	{
-		if(order == null)
-		{
+			throws Exception {
+		if(order == null) {
 			throw new NullPointerException();
 		}
 
@@ -94,10 +81,8 @@ public class OrderProcessingService {
 	}
 
 	public String getDestination(Order order)
-			throws Exception
-	{
-		if(order == null)
-		{
+			throws Exception {
+		if(order == null) {
 			throw new NullPointerException();
 		}
 
@@ -105,10 +90,8 @@ public class OrderProcessingService {
 	}
 
 	public int getOrderDay(Order order)
-			throws Exception
-	{
-		if(order==null)
-		{
+			throws Exception {
+		if(order==null) {
 			throw new NullPointerException();
 		}
 
@@ -116,10 +99,8 @@ public class OrderProcessingService {
 	}
 
 	public Integer getQuantityForItemInOrder(Order order, String itemName)
-			throws Exception
-	{
-		if(order==null||itemName==null)
-		{
+			throws Exception {
+		if(order==null||itemName==null) {
 			throw new NullPointerException();
 		}
 
@@ -128,112 +109,90 @@ public class OrderProcessingService {
 
 
 	public void logItems() 
-			throws Exception
-	{
+			throws Exception {
 		ItemService.getInstance().logItems();
 	}
 
 
 	public void logFacilities() 
-			throws NullPointerException, DoesNotExistException, Exception
-	{
+			throws NullPointerException, DoesNotExistException, Exception {
 		FacilityService.getInstance().logItems();
 	}
 
 
 	//Get methods
 	public Facility getFacility(String name)
-			throws NullPointerException, DoesNotExistException, Exception
-	{
+			throws NullPointerException, DoesNotExistException, Exception {
 		return FacilityService.getInstance().getFacility(name);
 	}
 
 	public String getFacilityName(OrdersProcessable orderProcessed)
-			throws NullPointerException, DoesNotExistException, Exception
-	{
+			throws NullPointerException, DoesNotExistException, Exception {
 		return orderProcessed.getSource();
 	}
 
 
 	public Neighbor toNeighbor(Facility facility)
-			throws Exception
-	{
+			throws Exception {
 		return FacilityService.getInstance().toNeighbor(facility);
 	}
 
 
 	//For the hard coding, since passing in string name and not neighbor or facility
 	public Neighbor createStartEnd(String name) 
-			throws NullPointerException, DoesNotExistException, Exception
-	{
+			throws NullPointerException, DoesNotExistException, Exception {
 		return toNeighbor(getFacility(name));
 	}
 
 
 	//Gets and logs shortest path
-	public ArrayList<Neighbor> getShortestPath(Neighbor start, Neighbor end) 
-			throws NullPointerException, DoesNotExistException, Exception
-	{
-		ArrayList<Neighbor> shortestPath = NetworkService.getInstance().getShortestPath(start, end);
-		
-		return shortestPath;
+	public List<Neighbor> getShortestPath(Neighbor start, Neighbor end)
+			throws NullPointerException, DoesNotExistException, Exception {
+		return NetworkService.getInstance().getShortestPath(start, end);
 	}
 
-	public ArrayList<Neighbor> getShortestPath(String facility, String destination)
-			throws NullPointerException, DoesNotExistException, Exception
-	{
+	public List<Neighbor> getShortestPath(String facility, String destination)
+			throws NullPointerException, DoesNotExistException, Exception {
 		Neighbor start = toNeighbor(getFacility(facility));
 		Neighbor end = toNeighbor(getFacility(destination));
 
-		ArrayList<Neighbor> shortestPath = NetworkService.getInstance().getShortestPath(start, end);
-
-		return shortestPath;
+		return NetworkService.getInstance().getShortestPath(start, end);
 	}
 
 
 
-	public ArrayList<Neighbor> getDestinationPath(String startFacilityName, String destination)
-			throws NullPointerException, DoesNotExistException, Exception
-	{
-		if(startFacilityName==null||destination==null)
-		{
+	public List<Neighbor> getDestinationPath(String startFacilityName, String destination)
+			throws NullPointerException, DoesNotExistException, Exception {
+		if(startFacilityName==null||destination==null) {
 			throw new NullPointerException();
 		}
 
 		Neighbor end = createStartEnd(destination);
 		Neighbor start = createStartEnd(startFacilityName);
 
-		ArrayList<Neighbor> shortestPath = getShortestPath(start,end);
-
-		return shortestPath;
+		return getShortestPath(start,end);
 	}
 
 
-	public void logPath(ArrayList<ArrayList<Neighbor>> shortestPaths) 
-			throws NullPointerException, Exception
-	{
+	public void logPath(List<List<Neighbor>> shortestPaths)
+			throws NullPointerException, Exception {
 		NetworkService.getInstance().logPath(shortestPaths);
 	}
 
 
-	public ArrayList<String> facilitiesWithItem(String itemName, String destination)
-			throws Exception
-	{
-		if(itemName==null)
-		{
+	public List<String> facilitiesWithItem(String itemName, String destination)
+			throws Exception {
+		if(itemName==null) {
 			throw new NullPointerException();
 		}
 
-		ArrayList<String> facilitiesWithItem = FacilityService.getInstance().facilitiesWithItem(itemName,destination);
-		return facilitiesWithItem;
+		return FacilityService.getInstance().facilitiesWithItem(itemName,destination);
 	}
 
 	//Helper method for expectedDeliveryDay, gets miles so arrivalDay can be called
-	public int getMilesFromPath (ArrayList<Neighbor> pathsFromSources)
-			throws Exception
-	{
-		if(pathsFromSources==null)
-		{
+	public int getMilesFromPath (List<Neighbor> pathsFromSources)
+			throws Exception {
+		if(pathsFromSources==null) {
 			throw new NullPointerException();
 		}
 
@@ -243,10 +202,8 @@ public class OrderProcessingService {
 
 
 	public Integer itemsInStock(String facilityName, String itemName)
-			throws Exception
-	{
-		if(facilityName==null||itemName==null)
-		{
+			throws Exception {
+		if(facilityName==null||itemName==null) {
 			throw new NullPointerException();
 		}
 
@@ -256,10 +213,8 @@ public class OrderProcessingService {
 	}
 
 	public Integer daysToProcess(String facilityName, Integer quantity, Integer startDate)
-			throws Exception
-	{
-		if(facilityName==null||quantity==null||startDate==null)
-		{
+			throws Exception {
+		if(facilityName==null||quantity==null||startDate==null) {
 			throw new NullPointerException();
 		}
 
@@ -267,39 +222,29 @@ public class OrderProcessingService {
 	}
 
 	public int travelTime(Integer miles)
-			throws Exception
-	{
-		if(miles == null)
-		{
+			throws Exception {
+		if(miles == null) {
 			throw new NullPointerException();
 		}
 
-		int travelTime = NetworkService.getInstance().travelTime(miles);
-
-		return travelTime;
+		return NetworkService.getInstance().travelTime(miles);
 	}
 
 	public int expectedShipDate(String facilityName, Integer quantity, Integer startDay)
-			throws Exception
-	{
-		if(facilityName==null || quantity==null)
-		{
+			throws Exception {
+		if(facilityName==null || quantity==null) {
 			throw new NullPointerException();
 		}
 
-		int expectedShipDate = FacilityService.getInstance().expectedShipDate(quantity, facilityName, startDay);
-
-		return expectedShipDate;
+		return FacilityService.getInstance().expectedShipDate(quantity, facilityName, startDay);
 	}
 
 	//Finds the delivery day
 	public int expectedDeliveryDate(String facility, int quantity,
 													String destination, Integer startDay)
-			throws Exception
-	{
+			throws Exception {
 
-		if(facility==null || destination==null || startDay==null)
-		{
+		if(facility==null || destination==null || startDay==null) {
 			throw new NullPointerException();
 		}
 
@@ -309,16 +254,13 @@ public class OrderProcessingService {
 		int expectedShipDate = expectedShipDate(facility, quantity, startDay);
 		int expectedTravelTime = travelTime(miles);
 
-		int expectedDelivery = expectedShipDate+expectedTravelTime;
-
-		return expectedDelivery;
+		return expectedShipDate + expectedTravelTime;
 	}
 
 	public OrdersProcessable addProcessedOrder(String newOrderID, String newSource, String newItemName,
 								  int newNumberOfItems, int newProcessingEndDate, int newDaysTookToProcess,
 								  int newTravelTime, int newArrivalDate)
-			throws Exception
-	{
+			throws Exception {
 		OrdersProcessable newOrder = OrdersProcessedFactory.createNewOrders(newOrderID, newSource, newItemName, newNumberOfItems,
 				newDaysTookToProcess, newProcessingEndDate, newTravelTime, newArrivalDate);
 
@@ -327,9 +269,8 @@ public class OrderProcessingService {
 	}
 
 
-	public ArrayList<OrdersProcessable> sortSourcesByDay (ArrayList<OrdersProcessable> ordersProcessed)
-			throws Exception
-	{
+	public List<OrdersProcessable> sortSourcesByDay (List<OrdersProcessable> ordersProcessed)
+			throws Exception {
 
 		Collections.sort(ordersProcessed);
 
@@ -338,10 +279,8 @@ public class OrderProcessingService {
 
 
 	public void updateToItemsTaken(OrdersProcessable ordersProcessed, String itemName, Integer quantityNeeded)
-			throws Exception
-	{
-		if(ordersProcessed == null||itemName==null||quantityNeeded==null)
-		{
+			throws Exception {
+		if(ordersProcessed == null||itemName==null||quantityNeeded==null) {
 			throw new NullPointerException();
 		}
 
@@ -351,10 +290,8 @@ public class OrderProcessingService {
 	}
 
 	public void updateDaysTaken(String facilityName, Integer quantity, Integer startDate, OrdersProcessable ordersProcessed)
-			throws Exception
-	{
-		if(facilityName==null||quantity==null||startDate==null || ordersProcessed==null)
-		{
+			throws Exception {
+		if(facilityName==null||quantity==null||startDate==null || ordersProcessed==null) {
 			throw new NullPointerException();
 		}
 
@@ -362,11 +299,9 @@ public class OrderProcessingService {
 	}
 
 	public void updateProcessingEndDay(String Destination, Integer quantity, Integer startDate, OrdersProcessable ordersProcessed)
-		throws Exception
-	{
+		throws Exception {
 
-		if(quantity==null||startDate==null||ordersProcessed==null)
-		{
+		if(quantity==null||startDate==null||ordersProcessed==null) {
 			throw new NullPointerException();
 		}
 
@@ -374,10 +309,8 @@ public class OrderProcessingService {
 	}
 
 	public void updateArrivalDay(String destination, Integer startDate, OrdersProcessable ordersProcessed)
-			throws Exception
-	{
-		if(startDate==null||ordersProcessed==null)
-		{
+			throws Exception {
+		if(startDate==null||ordersProcessed==null) {
 			throw new NullPointerException();
 		}
 
@@ -386,16 +319,13 @@ public class OrderProcessingService {
 
 
 	public Integer checkAmountGiven(OrdersProcessable orderProcessed, Integer amountNeeded)
-			throws Exception
-	{
+			throws Exception {
 		return FacilityService.getInstance().checkAmountGiven(orderProcessed.getSource(),orderProcessed.getItemName(),amountNeeded);
 	}
 
 	public void updateInventory (OrdersProcessable ordersProcessed, String itemName)
-			throws Exception
-	{
-		if(ordersProcessed == null||itemName==null)
-		{
+			throws Exception {
+		if(ordersProcessed == null||itemName==null) {
 			throw new NullPointerException();
 		}
 
@@ -405,10 +335,8 @@ public class OrderProcessingService {
 
 
 	public void reduceQuantityNeeded(Order order, String itemName, OrdersProcessable ordersProcessed)
-			throws Exception
-	{
-		if(order==null||itemName==null||ordersProcessed==null)
-		{
+			throws Exception {
+		if(order==null||itemName==null||ordersProcessed==null) {
 			throw new NullPointerException();
 		}
 
@@ -417,10 +345,8 @@ public class OrderProcessingService {
 	}
 
 	public void bookDays (OrdersProcessable ordersProcessed, Integer startDay)
-			throws Exception
-	{
-		if(ordersProcessed == null)
-		{
+			throws Exception {
+		if(ordersProcessed == null) {
 			throw new NullPointerException();
 		}
 
@@ -429,10 +355,8 @@ public class OrderProcessingService {
 	}
 
 	public boolean backOrdered(Order order, String itemName)
-			throws Exception
-	{
-		if(order==null||itemName==null)
-		{
+			throws Exception {
+		if(order==null||itemName==null) {
 			throw new NullPointerException();
 		}
 
@@ -440,20 +364,16 @@ public class OrderProcessingService {
 	}
 
 	public Integer getItemCost(String itemName)
-			throws Exception
-	{
-		if(itemName==null)
-		{
+			throws Exception {
+		if(itemName==null) {
 			throw new NullPointerException();
 		}
 		return ItemService.getInstance().getItemPrice(itemName);
 	}
 
 	public int itemCostPerFacility(OrdersProcessable processedItem)
-			throws Exception
-	{
-		if(processedItem==null)
-		{
+			throws Exception {
+		if(processedItem==null) {
 			throw new NullPointerException();
 		}
 
@@ -469,8 +389,7 @@ public class OrderProcessingService {
 
 		int travelCost =0;
 
-		if(quantityOfItems!=0)
-		{
+		if(quantityOfItems!=0) {
 			int travelTime = processedItem.getTravelTime();
 			travelCost = travelTime * TRAVEL_COST_PER_DAY;
 		}
@@ -480,40 +399,33 @@ public class OrderProcessingService {
 		return totalCost;
 	}
 
-	public Integer totalCostForItemOnOrder(ArrayList<OrdersProcessable> ordersProcessed)
-			throws Exception
-	{
-		if(ordersProcessed==null)
-		{
+	public Integer totalCostForItemOnOrder(List<OrdersProcessable> ordersProcessed)
+			throws Exception {
+		if(ordersProcessed==null) {
 			throw new NullPointerException();
 		}
 
 
 		int totalCost= 0;
 
-		for(OrdersProcessable processedItem : ordersProcessed)
-		{
+		for(OrdersProcessable processedItem : ordersProcessed) {
 			totalCost += itemCostPerFacility(processedItem);
 		}
 
 		return totalCost;
 	}
 
-	public Integer getSourcesUsed(ArrayList<OrdersProcessable> ordersProcessed)
-			throws Exception
-	{
+	public Integer getSourcesUsed(List<OrdersProcessable> ordersProcessed)
+			throws Exception {
 
-		if(ordersProcessed==null)
-		{
+		if(ordersProcessed==null) {
 			throw new NullPointerException();
 		}
 
 
 		int sourcesUsed=0;
-		for(OrdersProcessable ordersAtFacility : ordersProcessed)
-		{
-			if(!ordersAtFacility.getNumberOfItems().equals(0))
-			{
+		for(OrdersProcessable ordersAtFacility : ordersProcessed) {
+			if(!ordersAtFacility.getNumberOfItems().equals(0)) {
 				sourcesUsed++;
 			}
 		}
@@ -522,20 +434,16 @@ public class OrderProcessingService {
 
 	}
 
-	public Integer getFirstDay(ArrayList<OrdersProcessable> ordersProcessed)
-			throws Exception
-	{
-		if(ordersProcessed==null)
-		{
+	public Integer getFirstDay(List<OrdersProcessable> ordersProcessed)
+			throws Exception {
+		if(ordersProcessed==null) {
 			throw new NullPointerException();
 		}
 
 		int firstDay = ordersProcessed.get(0).getArrivalDate();
 
-		for(int i=1;i< ordersProcessed.size();i++)
-		{
-			if(ordersProcessed.get(i).getArrivalDate()<firstDay)
-			{
+		for(int i=1;i< ordersProcessed.size();i++) {
+			if(ordersProcessed.get(i).getArrivalDate()<firstDay) {
 				firstDay=ordersProcessed.get(i).getArrivalDate();
 			}
 		}
@@ -544,20 +452,16 @@ public class OrderProcessingService {
 
 	}
 
-	public Integer getLastDay(ArrayList<OrdersProcessable> ordersProcessed)
-			throws Exception
-	{
-		if(ordersProcessed==null)
-		{
+	public Integer getLastDay(List<OrdersProcessable> ordersProcessed)
+			throws Exception {
+		if(ordersProcessed==null) {
 			throw new NullPointerException();
 		}
 
 		int lastDay = ordersProcessed.get(0).getArrivalDate();
 
-		for(int i=1;i< ordersProcessed.size();i++)
-		{
-			if(ordersProcessed.get(i).getArrivalDate()>lastDay)
-			{
+		for(int i=1;i< ordersProcessed.size();i++) {
+			if(ordersProcessed.get(i).getArrivalDate()>lastDay) {
 				lastDay=ordersProcessed.get(i).getArrivalDate();
 			}
 		}
@@ -565,37 +469,31 @@ public class OrderProcessingService {
 
 	}
 
-	public ArrayList<Integer> getOriginalOrderQuantity(Order order)
-			throws Exception
-	{
+	public List<Integer> getOriginalOrderQuantity(Order order)
+			throws Exception {
 		return OrderService.getInstance().getOriginalQuantity(order);
 	}
 
 
 	public Integer totalCostOfOrder(OrdersProcessedSummary summary)
-			throws Exception
-	{
-		if(summary == null)
-		{
+			throws Exception {
+		if(summary == null) {
 			throw new NullPointerException();
 		}
 
 		Integer totalCost = 0;
-		ArrayList<Integer> costsPerItem = summary.getCostPerItem();
-		for(Integer itemCost : costsPerItem)
-		{
+		List<Integer> costsPerItem = summary.getCostPerItem();
+		for(Integer itemCost : costsPerItem) {
 			totalCost+=itemCost;
 		}
 
 		return totalCost;
 	}
 
-	public void createSummary(ArrayList<Integer> firstDay, ArrayList<Integer> lastDay, Order order,
-												ArrayList<Integer> costPerItem, ArrayList<Integer> sourcesUsed)
-			throws Exception
-	{
-		if(firstDay==null||order==null||lastDay==null||costPerItem==null||sourcesUsed==null)
-		{
+	public void createSummary(List<Integer> firstDay, List<Integer> lastDay, Order order,
+							  List<Integer> costPerItem, List<Integer> sourcesUsed)
+			throws Exception {
+		if(firstDay==null||order==null||lastDay==null||costPerItem==null||sourcesUsed==null) {
 			throw new NullPointerException();
 		}
 
@@ -606,21 +504,17 @@ public class OrderProcessingService {
 	}
 
 	public int summaryFirstDeliveryDay(OrdersProcessedSummary summary)
-			throws Exception
-	{
-		if(summary==null)
-		{
+			throws Exception {
+		if(summary==null) {
 			throw new NullPointerException();
 		}
 
-		ArrayList<Integer> firstDays = summary.getFirstDeliveryDay();
+		List<Integer> firstDays = summary.getFirstDeliveryDay();
 
 		int firstDay = firstDays.get(0);
 
-		for(int i=1;i< firstDays.size();i++)
-		{
-			if(firstDays.get(i)<firstDay)
-			{
+		for(int i=1;i< firstDays.size();i++) {
+			if(firstDays.get(i)<firstDay) {
 				firstDay=firstDays.get(i);
 			}
 		}
@@ -629,21 +523,17 @@ public class OrderProcessingService {
 	}
 
 	public int summaryLastDeliveryDay(OrdersProcessedSummary summary)
-			throws Exception
-	{
-		if(summary==null)
-		{
+			throws Exception {
+		if(summary==null) {
 			throw new NullPointerException();
 		}
 
-		ArrayList<Integer> lastDays = summary.getLastDeliveryDay();
+		List<Integer> lastDays = summary.getLastDeliveryDay();
 
 		int lastDay = lastDays.get(0);
 
-		for(int i=1;i< lastDays.size();i++)
-		{
-			if(lastDays.get(i)>lastDay)
-			{
+		for(int i=1;i< lastDays.size();i++) {
+			if(lastDays.get(i)>lastDay) {
 				lastDay=lastDays.get(i);
 			}
 		}
@@ -652,9 +542,8 @@ public class OrderProcessingService {
 	}
 
 
-	public void logSummary(ArrayList<Order> orders)
-			throws Exception
-	{
+	public void logSummary(List<Order> orders)
+			throws Exception {
 		OrderSummaryLoggable logger = OrderSummaryLogFactory.createNewOrdersLog();
 		logger.orderSummary(orderInformation, orders);
 	}

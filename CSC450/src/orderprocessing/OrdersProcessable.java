@@ -3,28 +3,16 @@ package orderprocessing;
 /**
  * Created by Adam on 5/30/2016.
  */
-public interface OrdersProcessable extends Comparable<OrdersProcessable>
-{
-
-    public String getOrderID();
-
-    public void updateItems(Integer takenItems) throws Exception;
-
-    public int getArrivalDate();
-
-    public String getSource();
-
-    public Integer getNumberOfItems();
-
-    public Integer getDaysTookToProcess();
-
-    public String getItemName();
-
-    public void setDaysTaken(Integer days);
-
-    public void setEndDay(Integer day);
-
-    public void setArrivalDay(Integer day);
-
-    public Integer getTravelTime();
+public interface OrdersProcessable extends Comparable<OrdersProcessable> {
+   String getOrderID();
+   void updateItems(Integer takenItems) throws Exception;
+   int getArrivalDate();
+   String getSource();
+   Integer getNumberOfItems();
+   Integer getDaysTookToProcess();
+   String getItemName();
+   void setDaysTaken(Integer days);
+   void setEndDay(Integer day);
+   void setArrivalDay(Integer day);
+   Integer getTravelTime();
 }

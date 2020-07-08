@@ -1,10 +1,9 @@
 package facilities;
 
 import exceptions.DoesNotExistException;
-import java.util.ArrayList;
+import java.util.List;
+
 //log interface
 public interface FacilitiesLoggable {
-	
-	public void facilitiesLog(ArrayList<Facility> facilities) throws NullPointerException, DoesNotExistException, Exception;
-
+	void facilitiesLog(List<Facility> facilities) throws NullPointerException, DoesNotExistException, Exception;
 }

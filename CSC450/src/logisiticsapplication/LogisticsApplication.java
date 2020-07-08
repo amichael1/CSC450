@@ -1,20 +1,18 @@
 package logisiticsapplication;
 
-import facilities.Facility;
 import facilities.Neighbor;
 import orderprocessing.OrderProcessingService;
 import orderprocessing.OrdersProcessable;
 import orders.Order;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class LogisticsApplication {
 
 	public static void main(String[] args)
-			throws Exception
-	{
+			throws Exception {
 		//Load inventory and facilities
 		OrderProcessingService.getInstance().loadItems();
 		OrderProcessingService.getInstance().loadFacilities();
@@ -23,34 +21,28 @@ public class LogisticsApplication {
 		//Log facilities the first time
 		OrderProcessingService.getInstance().logFacilities();
 
-		ArrayList<Order> orders = OrderProcessingService.getInstance().retrieveOrders();
+		List<Order> orders = OrderProcessingService.getInstance().retrieveOrders();
 
-		for(Order order:orders)
-		{
-			ArrayList<Integer> totalCostItem = new ArrayList<Integer>();
-			ArrayList<Integer> sources = new ArrayList<Integer>();
-			ArrayList<Integer> firstDay = new ArrayList<Integer>();
-			ArrayList<Integer> lastDay = new ArrayList<Integer>();
-			ArrayList<Integer> costPerItem = new ArrayList<Integer>();
+		for(Order order:orders) {
+			List<Integer> totalCostItem = new ArrayList<Integer>();
+			List<Integer> sources = new ArrayList<Integer>();
+			List<Integer> firstDay = new ArrayList<Integer>();
+			List<Integer> lastDay = new ArrayList<Integer>();
+			List<Integer> costPerItem = new ArrayList<Integer>();
 
-			ArrayList<String> itemsOnOrder = OrderProcessingService.getInstance().getItemsOnOrder(order);
+			List<String> itemsOnOrder = OrderProcessingService.getInstance().getItemsOnOrder(order);
 			String orderId = OrderProcessingService.getInstance().getOrderId(order);
 			String destination = OrderProcessingService.getInstance().getDestination(order);
 			Integer orderDay = OrderProcessingService.getInstance().getOrderDay(order);
 
-			for(String item : itemsOnOrder)
-			{
-				ArrayList<OrdersProcessable> ordersProcessed = new ArrayList<OrdersProcessable>();
+			for(String item : itemsOnOrder) {
+				List<OrdersProcessable> ordersProcessed = new ArrayList<OrdersProcessable>();
 
-				Integer quantityForItem =
-						OrderProcessingService.getInstance().getQuantityForItemInOrder(order,item);
-
-				ArrayList<String> facilitiesWithItem =
+				List<String> facilitiesWithItem =
 						OrderProcessingService.getInstance().facilitiesWithItem(item, destination);
 
-				for(String facility : facilitiesWithItem)
-				{
-					ArrayList<Neighbor> shortestPath =
+				for(String facility : facilitiesWithItem) {
+					List<Neighbor> shortestPath =
 							OrderProcessingService.getInstance().getShortestPath(facility,destination);
 
 					Integer miles = OrderProcessingService.getInstance().getMilesFromPath(shortestPath);
@@ -77,8 +69,7 @@ public class LogisticsApplication {
 
 				OrderProcessingService.getInstance().sortSourcesByDay(ordersProcessed);
 
-				for(int i=0; i<ordersProcessed.size();i++)
-				{
+				for(int i=0; i<ordersProcessed.size();i++) {
 					String facility
 							= OrderProcessingService.getInstance().getFacilityName(ordersProcessed.get(i));
 
@@ -117,7 +108,6 @@ public class LogisticsApplication {
 
 		OrderProcessingService.getInstance().logSummary(orders);
 		OrderProcessingService.getInstance().logFacilities();
-		
 	}
 
 }

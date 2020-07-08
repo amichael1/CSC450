@@ -1,24 +1,23 @@
 package facilities;
 
 import exceptions.NullClassDataValueException;
+
 import java.util.ArrayList;
-import exceptions.NullClassDataValueException;
+import java.util.List;
 
 public class FacilityImpl implements Facility{
 	//Facility class
 	private String name;
 	private int ratePerDay;
 	private int itemsPerDay;
-	private ArrayList<Neighbor> neighbors;
+	private List<Neighbor> neighbors;
 	private Schedule schedule;
 	private Inventory inventory;
 	
 	public FacilityImpl(String newName, int newRatePerDay, int newItemsPerDay,
-			ArrayList<Neighbor>newNeighbors, Schedule newSchedule, Inventory newInventory)
-			throws NullClassDataValueException
-	{
-		if(newName == null || newNeighbors == null || newSchedule == null || newInventory == null)
-		{
+						List<Neighbor>newNeighbors, Schedule newSchedule, Inventory newInventory)
+			throws NullClassDataValueException {
+		if(newName == null || newNeighbors == null || newSchedule == null || newInventory == null) {
 			throw new NullClassDataValueException();
 		}
 
@@ -32,25 +31,22 @@ public class FacilityImpl implements Facility{
 
 
 	//Only need Get methods at the moment, will need to add schedule methods to decrement schedule in phase 2
-	public String getName()
-	{
+	public String getName() {
 		String returnedName = new String(name);
 		return returnedName;
 	}
 	
-	public int getRatePerDay()
-	{
+	public int getRatePerDay() {
 		int returnRatePerDay = ratePerDay;
 		return returnRatePerDay;
 	}
 	
-	public int getItemsPerDay()
-	{
+	public int getItemsPerDay() {
 		int returnItemsPerDay = itemsPerDay;
 		return returnItemsPerDay;
 	}
 
-	public ArrayList<Neighbor> getNeighbors()
+	public List<Neighbor> getNeighbors()
 	{
 		return new ArrayList<Neighbor>(neighbors);
 	}
@@ -66,46 +62,37 @@ public class FacilityImpl implements Facility{
 	}
 
 
-	public ArrayList<String> getDepletedItems()
+	public List<String> getDepletedItems()
 	{
 		return inventory.getDepletedItems();
 	}
 
-	public boolean itemInStock(String itemName)
-	{
+	public boolean itemInStock(String itemName) {
 
-		if(itemName == null)
-		{
+		if(itemName == null) {
 			throw new NullPointerException();
 		}
 
 		return inventory.itemInStock(itemName);
-
 	}
 
-	public int expectedShipDate(Integer quantity, Integer startDay)
-	{
-		if(quantity == null || startDay == null)
-		{
+	public int expectedShipDate(Integer quantity, Integer startDay) {
+		if(quantity == null || startDay == null) {
 			throw new NullPointerException();
 		}
 
 		return schedule.expectedShipDate(quantity, itemsPerDay, startDay);
 	}
 
-	public void bookDays(Integer quantity, Integer startDay)
-	{
-		if(quantity == null)
-		{
+	public void bookDays(Integer quantity, Integer startDay) {
+		if(quantity == null) {
 			throw new NullPointerException();
 		}
 		schedule.bookDays(quantity, itemsPerDay, startDay);
 	}
 
-	public int daysToProcess(Integer quantity, Integer startDay)
-	{
-		if(quantity == null|| startDay == null)
-		{
+	public int daysToProcess(Integer quantity, Integer startDay) {
+		if(quantity == null|| startDay == null) {
 			throw new NullPointerException();
 		}
 		return schedule.daysToProcess(quantity, itemsPerDay, startDay);
@@ -116,8 +103,7 @@ public class FacilityImpl implements Facility{
 		return inventory.checkStock(itemName);
 	}
 
-	public Integer checkAmountGiven(String itemName, Integer amountNeeded)
-	{
+	public Integer checkAmountGiven(String itemName, Integer amountNeeded) {
 		return inventory.checkAmountGiven(itemName, amountNeeded);
 	}
 

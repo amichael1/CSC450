@@ -1,7 +1,8 @@
 package network;
 
-import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
+
 import facilities.Neighbor;
 
 public class PathLogToConsoleImpl implements PathLoggable {
@@ -11,25 +12,21 @@ public class PathLogToConsoleImpl implements PathLoggable {
 	private static final int MILES_PER_HOUR = 50;
 	private static final int LETTERS_IN_ALPHABET = 26;
 	
-	public void logPath(ArrayList<ArrayList<Neighbor>> shortestPath) {
-		
-		if(shortestPath == null)
-		{
+	public void logPath(List<List<Neighbor>> shortestPath) {
+		if(shortestPath == null) {
 			throw new NullPointerException();
 		}
 		
 		char[] letters = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
 		
-		Iterator<ArrayList<Neighbor>> logIterator = shortestPath.iterator();
+		Iterator<List<Neighbor>> logIterator = shortestPath.iterator();
 		int secondLetter = 0;
 		int thirdLetter = 0;
 		int letter = 0;
 		//log each trip
-		while(logIterator.hasNext())
-		{
-			if(letter < LETTERS_IN_ALPHABET)
-			{
-				ArrayList<Neighbor> neighbors = logIterator.next();
+		while(logIterator.hasNext()) {
+			if(letter < LETTERS_IN_ALPHABET) {
+				List<Neighbor> neighbors = logIterator.next();
 			
 				Neighbor firstNode = neighbors.get(0);
 				Neighbor lastNode = neighbors.get(neighbors.size()-1);
@@ -42,15 +39,12 @@ public class PathLogToConsoleImpl implements PathLoggable {
 
 				System.out.print("\t - ");
 				//Need to know if the last one in there so no arrow
-				for(Neighbor neighbor : neighbors)
-				{
+				for(Neighbor neighbor : neighbors) {
 					miles += neighbor.getMiles();
-					if(!neighbor.equals(lastNode))
-					{
+					if(!neighbor.equals(lastNode)) {
 						System.out.print(neighbor.getNeighbor() + "->");
 					}
-					else
-					{
+					else {
 						System.out.print(neighbor.getNeighbor() + " = " + miles + " mi");
 					}
 				}
@@ -64,9 +58,8 @@ public class PathLogToConsoleImpl implements PathLoggable {
 				System.out.println(miles + " mi / ("+HOURS_IN_DAY+ " hours per day * "+MILES_PER_HOUR+" mph) = " +daysDrivenOutput+ " days");
 				letter++;
 			}
-			else
-			{
-				ArrayList<Neighbor> neighbors = logIterator.next();
+			else {
+				List<Neighbor> neighbors = logIterator.next();
 				
 				Neighbor firstNode = neighbors.get(0);
 				Neighbor lastNode = neighbors.get(neighbors.size()-1);
@@ -79,15 +72,12 @@ public class PathLogToConsoleImpl implements PathLoggable {
 
 				System.out.print("\t - ");
 				//Need to know if the last one in there so no arrow
-				for(Neighbor neighbor : neighbors)
-				{
+				for(Neighbor neighbor : neighbors) {
 					miles += neighbor.getMiles();
-					if(!neighbor.equals(lastNode))
-					{
+					if(!neighbor.equals(lastNode)) {
 						System.out.print(neighbor.getNeighbor() + "->");
 					}
-					else
-					{
+					else {
 						System.out.print(neighbor.getNeighbor() + " = " + miles + " mi");
 					}
 				}
@@ -100,19 +90,15 @@ public class PathLogToConsoleImpl implements PathLoggable {
 			
 				System.out.println(miles + " mi / ("+HOURS_IN_DAY+ " hours per day * "+MILES_PER_HOUR+" mph) = " +daysDrivenOutput+ " days");
 				thirdLetter++;
-				if(thirdLetter == LETTERS_IN_ALPHABET)
-				{
+				if(thirdLetter == LETTERS_IN_ALPHABET) {
 					secondLetter++;
 					thirdLetter = 0;
 				}
-				if(secondLetter == LETTERS_IN_ALPHABET)
-				{
+				if(secondLetter == LETTERS_IN_ALPHABET) {
 					letter=0;
 				}
 			}
-		}	
-		
-		
+		}
 	}
 
 }

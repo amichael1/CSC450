@@ -1,9 +1,7 @@
 package items;
 
 public class ItemLoaderFactory {
-	
-	private ItemLoaderFactory()
-	{
+	private ItemLoaderFactory() {
 		
 	}
 //Only one way to load
@@ -12,6 +10,4 @@ public class ItemLoaderFactory {
 	{
 		return new ItemXmlLoaderImpl();
 	}
-	
-
 }

@@ -1,12 +1,10 @@
 package orders;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Adam on 5/30/2016.
  */
 public interface OrderLoader {
-
-    public ArrayList<Order> getOrders() throws Exception;
-
+    List<Order> getOrders() throws Exception;
 }

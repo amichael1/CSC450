@@ -1,16 +1,11 @@
 package orderprocessing;
 
-import exceptions.DoesNotExistException;
 import exceptions.NullClassDataValueException;
-
-import java.util.ArrayList;
-import java.util.Comparator;
 
 /**
  * Created by Adam on 5/30/2016.
  */
-public class OrderProcessedImpl implements OrdersProcessable
-{
+public class OrderProcessedImpl implements OrdersProcessable {
     private String orderID;
     private String source;
     private String itemName;
@@ -23,11 +18,9 @@ public class OrderProcessedImpl implements OrdersProcessable
     public OrderProcessedImpl(String newOrderID, String newSource, String newItemName,
                               int newNumberOfItems, int newDaysTookToProcess, int newProcessingEndDate,
                               int newTravelTime, int newArrivalDate)
-            throws Exception
-    {
+            throws Exception {
 
-        if(newSource == null || newOrderID == null)
-        {
+        if(newSource == null || newOrderID == null) {
             throw new NullClassDataValueException();
         }
 
@@ -57,37 +50,30 @@ public class OrderProcessedImpl implements OrdersProcessable
 
     public Integer getTravelTime(){return travelTime;}
 
-    public int getArrivalDate()
-    {
+    public int getArrivalDate() {
         int returnArrivalDate = arrivalDate;
         return returnArrivalDate;
     }
 
     public void updateItems(Integer amountNeeded)
-            throws Exception
-    {
-        if(amountNeeded == null)
-        {
+            throws Exception {
+        if(amountNeeded == null) {
             return;
         }
 
         numberOfItems = amountNeeded;
     }
 
-    public void setDaysTaken(Integer days)
-    {
-        if(days==null)
-        {
+    public void setDaysTaken(Integer days) {
+        if(days==null) {
             throw new NullPointerException();
         }
 
         daysTookToProcess = days;
     }
 
-    public void setEndDay(Integer day)
-    {
-        if(day==null)
-        {
+    public void setEndDay(Integer day) {
+        if(day==null) {
             throw new NullPointerException();
         }
 
@@ -95,31 +81,15 @@ public class OrderProcessedImpl implements OrdersProcessable
         processingEndDate = day;
     }
 
-    public void setArrivalDay(Integer day)
-    {
-        if(day==null)
-        {
+    public void setArrivalDay(Integer day) {
+        if(day==null) {
             throw new NullPointerException();
         }
 
         arrivalDate = day;
     }
 
-    public int compareTo(OrdersProcessable orderProcess)
-    {
-        if(arrivalDate > orderProcess.getArrivalDate())
-        {
-            return 1;
-        }
-        else if(arrivalDate < orderProcess.getArrivalDate())
-        {
-            return -1;
-        }
-        else
-        {
-            return 0;
-        }
+    public int compareTo(OrdersProcessable orderProcess) {
+        return Integer.compare(arrivalDate, orderProcess.getArrivalDate());
     }
-
-
 }

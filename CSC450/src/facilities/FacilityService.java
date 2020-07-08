@@ -1,20 +1,19 @@
 package facilities;
 
 import java.util.ArrayList;
+import java.util.List;
+
 import exceptions.DoesNotExistException;
 
 public class FacilityService {
-	
-	private ArrayList<Facility> facilities;
+	private List<Facility> facilities;
 	
 	private volatile static FacilityService facilityManager;
+
 	//Singleton to create a facility manager
-	public static FacilityService getInstance() throws Exception
-	{
-		synchronized(FacilityService.class)
-		{
-			if (facilityManager == null)
-			{
+	public static FacilityService getInstance() throws Exception {
+		synchronized(FacilityService.class) {
+			if (facilityManager == null) {
 				facilityManager = new FacilityService();
 			}
 		}
@@ -23,17 +22,14 @@ public class FacilityService {
 	}
 
 	//creates new facilities when called, calls factory to parse and instantiate
-	private FacilityService() throws Exception
-	{
+	private FacilityService() throws Exception {
 		FacilityLoader facilityLoader = FacilityLoaderFactory.createNewFacilities();
 		facilities = facilityLoader.getFacilities();
 	}
 	//Checks to see if facility exists
 	public boolean facilityExists(Facility facility)
-			throws NullPointerException
-	{
-		if(facility == null)
-		{
+			throws NullPointerException {
+		if(facility == null) {
 			throw new NullPointerException();
 		}
 		
@@ -41,44 +37,35 @@ public class FacilityService {
 	}
 	//Easy way to go from neighbor to facility
 	public Facility getFacility(String name)
-		throws NullPointerException, DoesNotExistException
-	{
-		if(name == null)
-		{
+		throws NullPointerException, DoesNotExistException {
+		if(name == null) {
 			throw new NullPointerException();
 		}
 		
 		Facility foundFacility = null;
 		
-		for(Facility facility : facilities)
-		{
-			if (facility.getName().equals(name))
-			{
+		for(Facility facility : facilities) {
+			if (facility.getName().equals(name)) {
 				foundFacility = facility;
 			}
 
 		}
 		
-		if(foundFacility==null)
-		{
+		if(foundFacility==null) {
 			throw new DoesNotExistException();
 		}
-		
-		
+
 		return foundFacility;
 	}
 	
 	
 	public Schedule getFacilitySchedule(Facility facilityNeeded)
-			throws NullPointerException, DoesNotExistException
-	{
-		if(facilityNeeded == null)
-		{
+			throws NullPointerException, DoesNotExistException {
+		if(facilityNeeded == null) {
 			throw new NullPointerException();
 		}
 		
-		if(!facilities.contains(facilityNeeded))
-		{
+		if(!facilities.contains(facilityNeeded)) {
 			throw new DoesNotExistException();
 		}
 		
@@ -90,52 +77,34 @@ public class FacilityService {
 		
 	}
 	
-	public ArrayList<Neighbor> getNeighbors(Facility facilityNeeded)
-			throws NullPointerException, DoesNotExistException
-	{
-		if(facilityNeeded == null)
-		{
+	public List<Neighbor> getNeighbors(Facility facilityNeeded)
+			throws NullPointerException, DoesNotExistException {
+		if(facilityNeeded == null) {
 			throw new NullPointerException();
 		}
 		
-		if(!facilities.contains(facilityNeeded))
-		{
+		if(!facilities.contains(facilityNeeded)) {
 			throw new DoesNotExistException();
 		}
-		
-		ArrayList<Neighbor> neighbors = null;
-		
-		neighbors = facilities.get(facilities.indexOf(facilityNeeded)).getNeighbors();
-		
-		return neighbors;
-		
+
+		return facilities.get(facilities.indexOf(facilityNeeded)).getNeighbors();
 	}
 	
 	public Inventory getInventory(Facility facilityNeeded)
-			throws NullPointerException, DoesNotExistException
-	{
-		if(facilityNeeded == null)
-		{
+			throws NullPointerException, DoesNotExistException {
+		if(facilityNeeded == null) {
 			throw new NullPointerException();
 		}
 		
-		if(!facilities.contains(facilityNeeded))
-		{
+		if(!facilities.contains(facilityNeeded)) {
 			throw new DoesNotExistException();
 		}
-		
-		Inventory inventory = null;
-		
-		inventory = facilities.get(facilities.indexOf(facilityNeeded)).getInventory();
-		
-		return inventory;
-		
+
+		return facilities.get(facilities.indexOf(facilityNeeded)).getInventory();
 	}
 	
-	public Neighbor toNeighbor(Facility facility)
-	{
-		if(facility == null)
-		{
+	public Neighbor toNeighbor(Facility facility) {
+		if(facility == null) {
 			throw new NullPointerException();
 		}
 
@@ -146,19 +115,15 @@ public class FacilityService {
 	}
 	
 	
-	public void logItems() throws NullPointerException, DoesNotExistException, Exception
-	{
+	public void logItems() throws NullPointerException, DoesNotExistException, Exception {
 		FacilitiesLoggable logger = FacilitiesLogFactory.createNewFacilitiesLog();
 		
 		logger.facilitiesLog(facilities);
 	}
 
 	public boolean hasItem(String itemName, String facilityName)
-			throws Exception
-	{
-
-		if(facilityName == null||itemName == null)
-		{
+			throws Exception {
+		if(facilityName == null||itemName == null) {
 			throw new NullPointerException();
 		}
 
@@ -168,10 +133,8 @@ public class FacilityService {
 	}
 
 	public Integer expectedShipDate(Integer quantity, String facility, Integer startDay)
-			throws Exception
-	{
-		if(facility == null || quantity == null)
-		{
+			throws Exception {
+		if(facility == null || quantity == null) {
 			throw new NullPointerException();
 		}
 
@@ -179,47 +142,37 @@ public class FacilityService {
 	}
 
 	public int daysToProcess(String facility, Integer quantity, Integer startDay)
-			throws Exception
-	{
-		if(facility == null || quantity==null)
-		{
+			throws Exception {
+		if(facility == null || quantity==null) {
 			throw new NullPointerException();
 		}
 
 		return getFacility(facility).daysToProcess(quantity, startDay);
-
 	}
 
 	public void updateAvailability(Integer quantity, String facility, Integer startDay)
-			throws Exception
-	{
-		if(facility == null || quantity==null)
-		{
+			throws Exception {
+		if(facility == null || quantity==null) {
 			throw new NullPointerException();
 		}
 
 		getFacility(facility).bookDays(quantity, startDay);
 	}
 
-	public ArrayList<String> facilitiesWithItem(String item, String destination)
-	{
-		if(item==null)
-		{
+	public List<String> facilitiesWithItem(String item, String destination) {
+		if(item==null) {
 			throw new NullPointerException();
 		}
 
-		ArrayList<String> facilitiesWithItem = new ArrayList<String>();
+		List<String> facilitiesWithItem = new ArrayList<String>();
 
-		for(Facility facility : facilities)
-		{
-			if(facility.itemInStock(item) && !facility.getName().equals(destination))
-			{
+		for(Facility facility : facilities) {
+			if(facility.itemInStock(item) && !facility.getName().equals(destination)) {
 				facilitiesWithItem.add(facility.getName());
 			}
 		}
 
-		if(facilitiesWithItem==null)
-		{
+		if(facilitiesWithItem==null) {
 			throw new NullPointerException();
 		}
 
@@ -227,10 +180,8 @@ public class FacilityService {
 	}
 
 	public Integer checkAmountGiven(String facilityName, String itemName, Integer amountNeeded)
-			throws Exception
-	{
-		if(facilityName==null||itemName==null||amountNeeded==null)
-		{
+			throws Exception {
+		if(facilityName==null||itemName==null||amountNeeded==null) {
 			throw new NullPointerException();
 		}
 
@@ -240,10 +191,8 @@ public class FacilityService {
 	}
 
 	public void updateInventory(String facilityName, String itemName, int quantityOfItems)
-			throws Exception
-	{
-		if(facilityName==null||itemName==null)
-		{
+			throws Exception {
+		if(facilityName==null||itemName==null) {
 			throw new NullPointerException();
 		}
 
@@ -253,18 +202,15 @@ public class FacilityService {
 	}
 
 	public void bookDays(String facilityName, Integer numberOfItems, Integer startDay)
-			throws Exception
-	{
+			throws Exception {
 		Facility facility = getFacility(facilityName);
 
 		facility.bookDays(numberOfItems, startDay);
 	}
 
 	public int costToProcessPerDay(String facilityName)
-			throws Exception
-	{
-		if(facilityName==null)
-		{
+			throws Exception {
+		if(facilityName==null) {
 			throw new NullPointerException();
 		}
 
@@ -272,6 +218,4 @@ public class FacilityService {
 
 		return facility.getRatePerDay();
 	}
-
-
 }

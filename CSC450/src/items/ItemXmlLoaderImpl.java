@@ -3,6 +3,7 @@ package items;
 import java.util.ArrayList;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -15,11 +16,9 @@ import org.xml.sax.SAXException;
 
 public class ItemXmlLoaderImpl implements ItemLoader{
 	
-	public ArrayList<Item> getItems() 
-			throws Exception
-	{
-		
-		ArrayList<Item> itemCollection = new ArrayList<Item>(); 
+	public List<Item> getItems()
+			throws Exception {
+        List<Item> itemCollection = new ArrayList<Item>();
 		
 		try {
             String fileName = "ItemCatalog.xml";
@@ -28,8 +27,7 @@ public class ItemXmlLoaderImpl implements ItemLoader{
             DocumentBuilder db = dbf.newDocumentBuilder();
 
             File xml = new File(fileName);
-            if (!xml.exists())
-            {
+            if (!xml.exists()) {
                 System.err.println("**** XML File '" + fileName + "' cannot be found");
                 System.exit(-1);
             }
@@ -39,38 +37,28 @@ public class ItemXmlLoaderImpl implements ItemLoader{
 
             NodeList itemEntries = doc.getDocumentElement().getChildNodes();
             //Get each Item Node
-            for (int i = 0; i < itemEntries.getLength(); i++)
-            {
-                if (itemEntries.item(i).getNodeType() == Node.TEXT_NODE)
-                {
+            for (int i = 0; i < itemEntries.getLength(); i++) {
+                if (itemEntries.item(i).getNodeType() == Node.TEXT_NODE) {
                     continue;
                 }
                 
                 String entryName = itemEntries.item(i).getNodeName();
-                if (!entryName.equals("Item"))
-                {
+                if (!entryName.equals("Item")) {
                     System.err.println("Unexpected node found: " + entryName);
                     return itemCollection;
                 }
-                
-
 
                 Element elem = (Element) itemEntries.item(i);
                 String itemName = elem.getElementsByTagName("ItemName").item(0).getTextContent();
                 int itemPrice = Integer.parseInt(elem.getElementsByTagName("ItemPrice").item(0).getTextContent());
-        		if(itemName == null)
-        		{
+        		if(itemName == null) {
         			throw new NullPointerException();
         		}
                 itemCollection.add(ItemFactory.createNewItem(itemName, itemPrice));
-
-
- 
             }
 
         }
-        catch (ParserConfigurationException | SAXException | IOException | DOMException e)
-        {
+        catch (ParserConfigurationException | SAXException | IOException | DOMException e) {
             e.printStackTrace();
         }
 		

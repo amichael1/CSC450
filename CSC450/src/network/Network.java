@@ -1,12 +1,11 @@
 package network;
 
-import java.util.ArrayList;
+import java.util.List;
+
 import exceptions.DoesNotExistException;
 import facilities.Neighbor;
 
-public interface Network
-{
+public interface Network {
 	//Network interface
-	public ArrayList<Neighbor> getShortestPath(Neighbor start, Neighbor end) throws NullPointerException, DoesNotExistException, Exception;
-
+	List<Neighbor> getShortestPath(Neighbor start, Neighbor end) throws NullPointerException, DoesNotExistException, Exception;
 }
